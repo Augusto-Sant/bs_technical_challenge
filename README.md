@@ -4,6 +4,10 @@ In this repository, you will find a set of tasks designed to assess your technic
 
 ### Getting Started
 
+**Important**
+
+The code, variables and comments should all be written in English.
+
 
 **Fork the Repository**: Start by forking this repository and cloning it to your local machine.
 
