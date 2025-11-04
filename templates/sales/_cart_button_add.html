@@ -1,0 +1,33 @@
+{% load static %}
+<!-- add to cart button -->
+<button 
+    id="cart_button_{{ product.id }}"
+    class="btn btn-primary btn-sm w-full {% if product.stock_qty == 0 %}btn-disabled{% endif %}"
+    {% if product.stock_qty == 0 %}disabled{% endif %}
+    hx-post="{% url 'sales:add_to_cart' product.id %}"
+    hx-target="#cart_button_{{ product.id }}"
+    hx-swap="outerHTML"
+    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+>
+    <span class="material-symbols-outlined text-sm">shopping_cart</span>
+    Add to Cart
+</button>
+
+<!-- navbar cart count update via oob-swap on htmx requests -->
+{% if request.META.HTTP_HX_REQUEST %}
+    <span id="item_count_badge" hx-swap-oob="true">{{ cart_item_count|default:"0" }}</span>
+    <!-- oob swap for any other instances of this cart button (modal or list) -->
+    <button 
+        id="cart_button_{{ product.id }}" 
+        hx-swap-oob="true"
+        class="btn btn-primary btn-sm w-full {% if product.stock_qty == 0 %}btn-disabled{% endif %}"
+        {% if product.stock_qty == 0 %}disabled{% endif %}
+        hx-post="{% url 'sales:add_to_cart' product.id %}"
+        hx-target="#cart_button_{{ product.id }}"
+        hx-swap="outerHTML"
+        hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+    >
+        <span class="material-symbols-outlined text-sm">shopping_cart</span>
+        Add to Cart
+    </button>
+{% endif %}

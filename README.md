@@ -144,7 +144,7 @@ When clicking “View details”, open a modal using HTMX with the product infor
 =================================================================================
 
 #### 🔴 Stage 3 - Dynamic Cart
-
+# TODO TO AQUI
 **Goal:**  
 Make the **"Add to cart"** button dynamic and reactive, allowing users to update the quantity of the product in the cart.
 

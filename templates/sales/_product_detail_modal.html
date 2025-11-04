@@ -1,0 +1,57 @@
+{% load static %}
+
+<dialog id="product_detail_modal" class="modal">
+    <div class="modal-box max-w-md w-11/12 p-4 overflow-hidden">
+        <!-- close button -->
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 z-10">✕</button>
+        </form>
+        
+        <div class="bg-base-200 p-12 flex items-center justify-center h-80">
+            <div class="w-full h-full flex items-center justify-center">
+                {% if product.image %}
+                    <img 
+                        src="{{ product.image.url }}" 
+                        alt="{{ product.name }}"
+                        class="max-w-full max-h-full w-auto h-auto object-contain"
+                    />
+                {% else %}
+                    <span class="material-symbols-outlined text-6xl text-base-content/20">inventory_2</span>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- product details section -->
+        <div class="flex flex-col p-8 gap-5 max-h-96 overflow-y-auto">
+            <div class="space-y-1">
+                {% if product.brand %}
+                    <p class="text-xs uppercase tracking-wider text-base-content/50">{{ product.brand }}</p>
+                {% endif %}
+                <h3 class="text-xl font-semibold">{{ product.name }}</h3>
+            </div>
+            
+            <div class="flex items-center justify-between">
+                <p class="text-2xl font-bold">${{ product.price }}</p>
+                <div class="badge badge-sm {% if product.stock_qty > 10 %}badge-success{% elif product.stock_qty > 0 %}badge-warning{% else %}badge-error{% endif %}">
+                    {{ product.stock_qty }} in stock
+                </div>
+            </div>
+            
+            {% if product.description %}
+                <p class="text-sm text-base-content/70 leading-relaxed">{{ product.description }}</p>
+            {% endif %}
+            
+            <!-- buttons -->
+            <div class="pt-2 space-y-2">
+                {% if cart_item %}
+                    {% include 'sales/_cart_button_quantity.html' with product=product cart_item=cart_item %}
+                {% else %}
+                    {% include 'sales/_cart_button_add.html' with product=product %}
+                {% endif %}
+                <form method="dialog">
+                    <button class="btn btn-ghost btn-sm w-full">Close</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</dialog>

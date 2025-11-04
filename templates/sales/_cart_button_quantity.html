@@ -1,0 +1,74 @@
+{% load static %}
+<!-- quantity input with +/- buttons -->
+<div id="cart_button_{{ product.id }}" class="flex items-center gap-2 w-full">
+    <button
+        class="btn btn-sm btn-circle btn-outline flex-shrink-0"
+        hx-get="{% url 'sales:update_cart_quantity' product.id %}?action=decrement"
+        hx-target="#cart_button_{{ product.id }}"
+        hx-swap="outerHTML"
+        {% if cart_item.quantity <= 1 %}disabled{% endif %}
+    >
+        -
+    </button>
+    <input
+        type="number"
+        value="{{ cart_item.quantity }}"
+        min="0"
+        max="{{ product.stock_qty }}"
+        class="input input-bordered input-sm w-16 text-center flex-1"
+        hx-get="{% url 'sales:update_cart_quantity' product.id %}?quantity="
+        hx-target="#cart_button_{{ product.id }}"
+        hx-swap="outerHTML"
+        hx-trigger="change delay:500ms"
+        name="quantity"
+        onchange="this.setAttribute('hx-get', '{% url 'sales:update_cart_quantity' product.id %}?quantity=' + this.value)"
+    />
+    <button
+        class="btn btn-sm btn-circle btn-outline flex-shrink-0"
+        hx-get="{% url 'sales:update_cart_quantity' product.id %}?action=increment"
+        hx-target="#cart_button_{{ product.id }}"
+        hx-swap="outerHTML"
+        {% if cart_item.quantity >= product.stock_qty %}disabled{% endif %}
+    >
+        +
+    </button>
+</div>
+
+<!-- navbar cart count update via oob-swap (only on htmx requests) -->
+{% if request.META.HTTP_HX_REQUEST %}
+    <span id="item_count_badge" hx-swap-oob="true">{{ cart_item_count|default:"0" }}</span>
+    <!-- oob swap for any other instances of this cart button (modal or list) -->
+    <div id="cart_button_{{ product.id }}" hx-swap-oob="true" class="flex items-center gap-2 w-full">
+        <button
+            class="btn btn-sm btn-circle btn-outline flex-shrink-0"
+            hx-get="{% url 'sales:update_cart_quantity' product.id %}?action=decrement"
+            hx-target="#cart_button_{{ product.id }}"
+            hx-swap="outerHTML"
+            {% if cart_item.quantity <= 0 %}disabled{% endif %}
+        >
+            -
+        </button>
+        <input
+            type="number"
+            value="{{ cart_item.quantity }}"
+            min="0"
+            max="{{ product.stock_qty }}"
+            class="input input-bordered input-sm w-16 text-center flex-1"
+            hx-get="{% url 'sales:update_cart_quantity' product.id %}?quantity="
+            hx-target="#cart_button_{{ product.id }}"
+            hx-swap="outerHTML"
+            hx-trigger="change delay:500ms"
+            name="quantity"
+            onchange="this.setAttribute('hx-get', '{% url 'sales:update_cart_quantity' product.id %}?quantity=' + this.value)"
+        />
+        <button
+            class="btn btn-sm btn-circle btn-outline flex-shrink-0"
+            hx-get="{% url 'sales:update_cart_quantity' product.id %}?action=increment"
+            hx-target="#cart_button_{{ product.id }}"
+            hx-swap="outerHTML"
+            {% if cart_item.quantity >= product.stock_qty %}disabled{% endif %}
+        >
+            +
+        </button>
+    </div>
+{% endif %}

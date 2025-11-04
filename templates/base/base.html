@@ -76,7 +76,7 @@
                 </a>
             </li>
             <li>
-                <a href="{% url 'sales:home' %}">
+                <a href="{% url 'sales:products' %}">
                     <span class="material-symbols-outlined">
                         Package
                     </span>
@@ -94,6 +94,66 @@
         </ul>
     </div>
 </div>
+
+<!-- Modal container for product details -->
+<div id="product-modal-container"></div>
+
+<script>
+// Handle HTMX events for modal
+document.body.addEventListener('htmx:afterSwap', function(event) {
+    // Check if the swapped content is a modal
+    const modal = event.detail.target.querySelector('#product_detail_modal');
+    if (modal) {
+        // Close any existing modal first
+        const existingModal = document.getElementById('product_detail_modal');
+        if (existingModal && existingModal !== modal) {
+            existingModal.close();
+            existingModal.remove();
+        }
+        // Show the new modal
+        modal.showModal();
+        
+        // Clean up on close
+        modal.addEventListener('close', function() {
+            const self = this;
+            setTimeout(() => {
+                if (self.parentNode) {
+                    self.remove();
+                }
+            }, 150);
+        }, { once: true });
+    }
+});
+
+// Also handle modals swapped directly into body
+document.body.addEventListener('htmx:afterSwap', function(event) {
+    if (event.detail.target === document.body) {
+        const modal = document.getElementById('product_detail_modal');
+        if (modal) {
+            // Close any existing modal first
+            const existingModals = document.querySelectorAll('#product_detail_modal');
+            existingModals.forEach(m => {
+                if (m !== modal && m.open) {
+                    m.close();
+                    m.remove();
+                }
+            });
+            // Show the new modal
+            modal.showModal();
+            
+            // Clean up on close
+            modal.addEventListener('close', function() {
+                const self = this;
+                setTimeout(() => {
+                    if (self.parentNode) {
+                        self.remove();
+                    }
+                }, 150);
+            }, { once: true });
+        }
+    }
+});
+</script>
 
 </body>
 </html>

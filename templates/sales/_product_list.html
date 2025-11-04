@@ -1,0 +1,85 @@
+{% load static %}
+{% load cart_tags %}
+
+{% if products %}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {% for product in products %}
+            <div class="card bg-white shadow-lg hover:shadow-2xl transition-all duration-300 rounded-xl overflow-hidden border border-gray-100 group">
+                <figure class="h-56 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden relative">
+                    {% if product.image %}
+                        <img 
+                            src="{{ product.image.url }}" 
+                            alt="{{ product.name }}"
+                            class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+                        />
+                    {% else %}
+                        <span class="material-symbols-outlined text-6xl text-gray-400">
+                            inventory_2
+                        </span>
+                    {% endif %}
+                    {% if product.stock_qty == 0 %}
+                        <div class="absolute top-2 right-2">
+                            <span class="badge badge-error text-white">Out of Stock</span>
+                        </div>
+                    {% endif %}
+                </figure>
+                <div class="card-body p-5">
+                    <div class="mb-2">
+                        <h2 class="card-title text-lg font-bold text-gray-800 line-clamp-2 min-h-[3.5rem]">
+                            {{ product.name }}
+                        </h2>
+                        {% if product.brand %}
+                            <p class="text-xs text-gray-500 font-medium mt-1">{{ product.brand }}</p>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="flex items-center justify-between mb-3">
+                        <div>
+                            <p class="text-2xl font-bold text-primary">${{ product.price }}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs text-gray-500 mb-1">Stock</p>
+                            <p class="text-sm font-semibold {% if product.stock_qty > 10 %}text-green-600{% elif product.stock_qty > 0 %}text-orange-600{% else %}text-red-600{% endif %}">
+                                {{ product.stock_qty }}
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="card-actions justify-stretch gap-2 mt-4">
+                        <button 
+                            class="btn btn-outline btn-sm flex-1 hover:btn-primary transition-colors"
+                            hx-get="{% url 'sales:product_detail_modal' product.id %}"
+                            hx-target="body"
+                            hx-swap="beforeend"
+                        >
+                            <span class="material-symbols-outlined text-sm">visibility</span>
+                            Details
+                        </button>
+                        <div class="flex-1">
+                            {% with cart_item=cart_items|get_item:product.id %}
+                                {% if cart_item %}
+                                    {% include 'sales/_cart_button_quantity.html' with product=product cart_item=cart_item %}
+                                {% else %}
+                                    {% include 'sales/_cart_button_add.html' with product=product %}
+                                {% endif %}
+                            {% endwith %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="flex flex-col items-center justify-center py-16 px-4">
+        <span class="material-symbols-outlined text-6xl text-gray-300 mb-4">search_off</span>
+        <h3 class="text-xl font-semibold text-gray-600 mb-2">No products found</h3>
+        <p class="text-gray-500 text-center">
+            {% if query %}
+                No products matching "{{ query }}" were found.
+            {% else %}
+                There are no products available at the moment.
+            {% endif %}
+        </p>
+    </div>
+{% endif %}
+
