@@ -4,13 +4,13 @@
 {% if products %}
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {% for product in products %}
-            <div class="card bg-white shadow-lg hover:shadow-2xl transition-all duration-300 rounded-xl overflow-hidden border border-gray-100 group">
-                <figure class="h-56 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden relative">
+            <div class="card bg-white shadow-lg transition-all duration-300 rounded-xl overflow-hidden border border-gray-100 group">
+                <figure class="h-56 bg-white flex items-center justify-center overflow-hidden relative">
                     {% if product.image %}
                         <img 
                             src="{{ product.image.url }}" 
                             alt="{{ product.name }}"
-                            class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+                            class="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-300"
                         />
                     {% else %}
                         <span class="material-symbols-outlined text-6xl text-gray-400">
@@ -45,7 +45,7 @@
                         </div>
                     </div>
                     
-                    <div class="card-actions justify-stretch gap-2 mt-4">
+                    <div class="flex flex-row card-actions justify-stretch gap-2">
                         <button 
                             class="btn btn-outline btn-sm flex-1 hover:btn-primary transition-colors"
                             hx-get="{% url 'sales:product_detail_modal' product.id %}"

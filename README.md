@@ -1,5 +1,8 @@
 # Welcome to the technical challenge repository!
 
+superuser : `jose`
+password: `jose123$`
+
 In this repository, you will find a set of tasks designed to assess your technical skills and problem-solving abilities. Please read the instructions carefully and complete the challenges to the best of your ability.
 
 ### Getting Started
