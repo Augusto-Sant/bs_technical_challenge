@@ -17,4 +17,7 @@ urlpatterns = [
         views.update_cart_quantity_view,
         name="update_cart_quantity",
     ),
+    path("review/", views.review_view, name="review"),
+    path("place-order/", views.place_order_view, name="place_order"),
+    path("order-history/", views.order_history_view, name="order_history"),
 ]

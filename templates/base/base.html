@@ -37,16 +37,17 @@
                 </h1>
             </div>
             <div class="flex items-center">
-                <button class="btn btn-sm  btn-ghost">
+                <a class="btn btn-sm  btn-ghost" href="{% url 'sales:review' %}">
                     <span class="material-symbols-outlined">
                         shopping_cart
                     </span>
+                    Order items in Cart
                     <span class="badge badge-sm badge-error text-white">
                         <span id="item_count_badge">
                             {{ cart_item_count|default:"0" }}
                         </span>
                     </span>
-                </button>
+                </a>
             </div>
         </nav>
 
@@ -84,7 +85,7 @@
                 </a>
             </li>
             <li>
-                <a href="{% url 'sales:home' %}">
+                <a href="{% url 'sales:order_history' %}">
                     <span class="material-symbols-outlined">
                         history
                     </span>
