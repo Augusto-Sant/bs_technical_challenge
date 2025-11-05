@@ -1,7 +1,3 @@
-**Superuser**  
-`username:` jose  
-`password:` jose123$
-
 **Install & Run**
 ```bash
 uv sync
