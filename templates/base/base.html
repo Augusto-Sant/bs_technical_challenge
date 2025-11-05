@@ -28,20 +28,35 @@
     <div class="drawer-content flex flex-col">
         <nav class="flex items-center p-4 w-full bg-white shadow justify-between">
             <div class="flex items-center gap-2">
-
-                <label for="my-drawer-2" class="btn btn-sm btn-ghost lg:hidden">
-                    <span class="material-symbols-outlined">menu</span>
-                </label>
-                <h1>
+                <h1 class="hidden lg:block">
                     {% block page_title %}Title{% endblock %}
                 </h1>
+            </div>
+            <div class="flex items-center gap-1 lg:hidden">
+                <a class="btn btn-sm  btn-ghost" href="{% url 'sales:home' %}">
+                    <span class="material-symbols-outlined">
+                        home
+                    </span>
+                </a>
+                <a class="btn btn-sm  btn-ghost" href="{% url 'sales:products' %}">
+                    <span class="material-symbols-outlined">
+                        Package
+                    </span>
+                    Products
+                </a>
+                <a  class="btn btn-sm  btn-ghost"href="{% url 'sales:order_history' %}">
+                    <span class="material-symbols-outlined">
+                        history
+                    </span>
+                    Orders
+                </a>
             </div>
             <div class="flex items-center">
                 <a class="btn btn-sm  btn-ghost" href="{% url 'sales:review' %}">
                     <span class="material-symbols-outlined">
                         shopping_cart
                     </span>
-                    Order items in Cart
+                    <span class="hidden lg:block">Order items in Cart</span>
                     <span class="badge badge-sm badge-error text-white">
                         <span id="item_count_badge">
                             {{ cart_item_count|default:"0" }}
@@ -56,7 +71,7 @@
         </div>
 
     </div>
-    <div class="drawer-side bg-white border-r">
+    <div class="drawer-side bg-white border-r hidden lg:block">
         <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
 
         <div class="flex gap-2 items-center px-6" style="height: 64px">
@@ -95,9 +110,6 @@
         </ul>
     </div>
 </div>
-
-<!-- Modal container for product details -->
-<div id="product-modal-container"></div>
 
 <script>
 // Handle HTMX events for modal
