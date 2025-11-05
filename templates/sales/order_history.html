@@ -14,7 +14,7 @@
             <p class="text-gray-600 mt-1">View all completed orders</p>
         </div>
 
-        <div class="p-6">
+        <div class="p-6 text-sm sm:text-base">
             {% if orders %}
             <div class="space-y-4">
                 {% for order in orders %}
@@ -120,7 +120,7 @@
             <div class="text-center py-12">
                 <span class="material-symbols-outlined text-gray-300 text-6xl">receipt_long</span>
                 <h3 class="mt-4 text-lg font-semibold text-gray-900">No orders yet</h3>
-                <p class="mt-2 text-gray-500">Start selling products to see your order history here.</p>
+                <p class="mt-2 text-gray-500">Start buying products to see your order history here.</p>
                 <a href="{% url 'sales:products' %}" class="btn btn-primary mt-6">
                     <span class="material-symbols-outlined">shopping_bag</span>
                     Browse Products

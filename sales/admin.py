@@ -3,6 +3,7 @@ from .models import Product, Order, OrderItem
 
 # Register your models here.
 
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ("name", "sku", "price", "stock_qty", "brand")

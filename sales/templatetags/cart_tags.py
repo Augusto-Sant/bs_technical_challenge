@@ -14,9 +14,10 @@ def get_item(dictionary, key):
         return None
     return dictionary.get(key)
 
+
 @register.filter
 def mul(value, arg):
     try:
         return float(value) * int(arg)
     except:
-        return ''
+        return ""
